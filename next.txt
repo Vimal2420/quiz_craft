@@ -1,0 +1,118 @@
+================================================================================
+QUIZCRAFT PROJECT - PROGRESS, STATUS & RESUME GUIDE FOR TOMORROW
+================================================================================
+Last Updated: 2026-09-18
+Project Location: c:\Users\Lenovo\OneDrive\Desktop\projects\quiz app
+
+--------------------------------------------------------------------------------
+1. CURRENT STATUS & ACCOMPLISHMENTS
+--------------------------------------------------------------------------------
+- Full Backend Migration Completed:
+  - Migrated completely from Supabase to custom Node.js (Express) + MongoDB Atlas + JWT.
+  - Zero transactional emails sent, completely eliminating Supabase bounced email issues.
+  - Client bundle size reduced from 452 kB to ~239 kB.
+  - Express server running on port 5000, Vite running on port 5173 with proxy.
+  - MongoDB Atlas cluster successfully connected (database: `quizcraft`).
+
+- Test Category Selection ("Choose Category"):
+  - Candidates can attend strictly ONE category at a time:
+    1. Chapter Wise: Attend questions from a specific syllabus chapter.
+       -> Self-paced practice with NO countdown timer (elapsed stopwatch only).
+    2. Question Volume: Attend test with fixed questions (Full 100%, Half 50%, or Quick 10 Qs).
+       -> Self-paced practice with NO countdown timer (elapsed stopwatch only).
+    3. Time and Exam Duration: Strictly timed assessment.
+       -> Has countdown timer (15m, 30m, 45m, 1hr, 1.5hr, 2hr Max).
+       -> Strictly capped at 2 hours (120 mins).
+       -> Zero unlimited time option. Auto-submits when timer reaches 00:00.
+  - "Back to Profile" button removed from lobby and scorecard.
+
+- Test Attempts Allocation & Immediate Decrement on Start:
+  - Admin sets allowed test count during candidate approval:
+    - In "User Approvals" -> Pending Requests, admin enters "Allowed Tests" (default 3, can be set to any number e.g. 2, 5, 10) and clicks "Approve".
+  - Immediate Decrement on Test Start:
+    - The moment a student clicks "Begin Assessment" (`POST /api/attempts/start`), their remaining attempts immediately decrease by 1 in MongoDB Atlas.
+    - Even if the user closes the tab, refreshes, or leaves without submitting, the attempt is counted and consumed.
+    - Live status banner displayed in lobby: "X of Y Test Attempts Remaining".
+    - Displayed in Candidate Profile: "Total Assigned Attempts" and "Remaining Test Attempts".
+  - Exhaustion Guard:
+    - When remaining attempts reach 0, "Begin Assessment" button is disabled ("No Test Attempts Remaining").
+    - Backend API (`POST /api/attempts/start`) rejects test entry with 403 Forbidden once attempts hit 0.
+  - Admin Custom Attempts Top-up:
+    - In Approved Active Users table, column header is "Test Attempts & Top-up".
+    - Top-up input has an empty placeholder ("Top-up") rather than a pre-filled default.
+    - Admin enters any custom top-up number and clicks "+ Top-up".
+    - Immediately grants the entered tests and resets the input back to empty.
+  - Search Bars for Pending Requests & Active Users:
+    - Dedicated live search bars for both "Pending User Registration Requests" and "Approved Active Users".
+    - Searches candidate name and email address in real time with an instant clear ('✕') button.
+
+- Auto-Resume / Session Persistence on Page Refresh:
+  - If a student reloads the browser, closes/re-opens the tab, or has a connection hiccup during an active test:
+    - App automatically detects the ongoing test session and restores the student directly into the active assessment arena.
+    - Preserves exact questions, current question index, selected answers so far, flagged questions, and elapsed/countdown timer.
+    - Zero additional attempt deducted on reload (their ongoing attempt continues uninterrupted).
+    - If it was a strictly timed test (`time_duration`), the elapsed time away is accounted for; if timer expired while away, it auto-submits.
+    - Once submitted (or when clicking "Configure New Test"), the saved session is cleared cleanly.
+
+- Comprehensive Candidate Profile Suite:
+  - Candidate Identity: Displays Full Name, Email address, "🟢 APPROVED" badge, and Candidate role tag.
+  - Balance Test Attempts Widget: Displays remaining test attempts (`X of Y Attempts Left`), tests used, total allowance, dynamic visual progress gauge, and status tag (`Active Quota` or `Quota Depleted`).
+  - Performance Based on Previous Tests: Analytics tiles for Tests Completed, Average Accuracy %, Best Score %, and Total Time Spent in exam arena.
+  - Candidate Leaderboard: Live aggregation endpoint (`GET /api/attempts/leaderboard`) ranking students with gold/silver/bronze medals (`🥇 1st`, `🥈 2nd`, `🥉 3rd`), highlighting the logged-in candidate (`YOU`).
+  - Previous Test History Log: Clean table of completed assessments (`GET /api/attempts/my`) showing Date/Time, Chapter/Category, Score, Accuracy %, and Time Spent.
+
+- Mobile Un-Congested Responsiveness System:
+  - Outer and inner padding calibrated on mobile (<= 768px) to eliminate wasted margin space and prevent congestion on 360px-430px screens.
+  - Added `overflow-x: hidden; max-width: 100%;` to `html`, `body`, and `#root` to prevent page wobble or horizontal overflow.
+  - Responsive Section Navigation Tabs: Adaptive flex system (`calc(50% - 0.5rem)`) showing "🎯 Attend MCQ Assessment" and "👤 Candidate Profile" side-by-side on mobile without cutoff, truncation, or horizontal scrolling.
+  - Candidate Profile: Hidden circular avatar on mobile (`<= 768px`) for clean name alignment, responsive 2-column analytics grid, and touch-scrollable subtabs.
+  - Assessment Setup: Vertically stacked category cards (`1fr`) with balanced spacing, responsive attempts banner, and thumb-friendly quiz action buttons.
+  - Tables: Contained inside touch-scrolling wrappers with compact cell padding (`0.75rem 0.65rem`).
+
+--------------------------------------------------------------------------------
+2. ACTIVE CREDENTIALS & ACCOUNTS
+--------------------------------------------------------------------------------
+- Admin Account:
+  Email: admin@quizcraft.io
+  Password: admin123
+  Role: admin (approved)
+
+- Student Accounts:
+  1. Email: sophia@test.edu
+     Password: studentpassword123
+     Status: approved (2 of 3 attempts remaining)
+
+  2. Email: david@test.edu
+     Password: studentpassword123
+     Status: approved (2 allowed attempts)
+
+--------------------------------------------------------------------------------
+3. MONGODB ATLAS DATABASE DETAILS
+--------------------------------------------------------------------------------
+- Connection URI configured in `server/.env`:
+  mongodb+srv://vimalvijayanidk23cs063_db_user:9h9zeSKQ2BhKaAFS@cluster0.slckf7d.mongodb.net/quizcraft?retryWrites=true&w=majority
+- Models:
+  - User: name, email, password (bcrypt), role ('admin'|'user'), status ('pending'|'approved'|'rejected'), allowedAttempts, remainingAttempts.
+  - Question: chapter, prompt, code, options (4 strings), correct_index (0-3), explanation.
+  - Attempt: userId, userName, chapter, score, totalQuestions, percentage, timeSpentSeconds, answers.
+
+--------------------------------------------------------------------------------
+4. HOW TO RUN THE PROJECT TOMORROW
+--------------------------------------------------------------------------------
+Open terminal in project root `c:\Users\Lenovo\OneDrive\Desktop\projects\quiz app`:
+
+Terminal 1 (Backend Server):
+  node server/server.js
+  (Server will connect to MongoDB Atlas and listen on http://localhost:5000)
+
+Terminal 2 (Frontend Client):
+  npm run dev -- --port 5173
+  (Open http://localhost:5173/ in your browser)
+
+--------------------------------------------------------------------------------
+5. NEXT STEPS / FUTURE ROADMAP
+--------------------------------------------------------------------------------
+- Additional MCQ chapters and bulk upload (JSON/CSV import).
+- Student attempt history list / past scorecard logs.
+- Admin analytics / student performance leaderboards.
+================================================================================
