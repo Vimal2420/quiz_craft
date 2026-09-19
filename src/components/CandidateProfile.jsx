@@ -113,8 +113,11 @@ export default function CandidateProfile({ onStartQuiz }) {
               <h2>{displayName}</h2>
               <span className="status-pill status-approved">🟢 APPROVED</span>
             </div>
-            <p className="profile-email-sub">
-              📧 <code>{user?.email}</code>
+            <p className="profile-email-sub" style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+              <span>📧 <code>{user?.email}</code></span>
+              {user?.phone && (
+                <span>📱 <code>{user.phone}</code></span>
+              )}
             </p>
             <div className="profile-meta-tags">
               <span className="meta-tag">🎓 Role: Candidate</span>

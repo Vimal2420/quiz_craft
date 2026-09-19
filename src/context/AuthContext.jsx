@@ -75,13 +75,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (name, email, password, targetRole = 'user') => {
+  const signup = async (name, email, password, targetRole = 'user', phone = '') => {
     const cleanEmail = email.trim().toLowerCase();
 
     try {
       const data = await ApiClient.post('/api/auth/register', {
         name: name.trim(),
         email: cleanEmail,
+        phone: phone.trim(),
         password
       });
 

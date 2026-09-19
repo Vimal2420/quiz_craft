@@ -7,10 +7,10 @@ const router = express.Router();
 // POST /api/auth/register (Normal User registration -> pending approval)
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, phone, password } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Name, email, and password are required.' });
+    if (!name || !email || !password || !phone) {
+      return res.status(400).json({ message: 'Name, email, phone number, and password are required.' });
     }
 
     if (password.length < 6) {
@@ -25,6 +25,7 @@ router.post('/register', async (req, res) => {
     const newUser = new User({
       name: name.trim(),
       email: email.toLowerCase().trim(),
+      phone: phone.trim(),
       password,
       role: 'user',
       status: 'pending'
@@ -91,6 +92,7 @@ router.post('/login', async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone || '',
         role: user.role,
         status: user.status,
         allowedAttempts: user.allowedAttempts ?? 3,
@@ -109,6 +111,7 @@ router.get('/me', verifyToken, async (req, res) => {
       id: req.user._id,
       name: req.user.name,
       email: req.user.email,
+      phone: req.user.phone || '',
       role: req.user.role,
       status: req.user.status,
       allowedAttempts: req.user.allowedAttempts ?? 3,

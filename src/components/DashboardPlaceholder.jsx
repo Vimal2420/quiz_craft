@@ -22,12 +22,14 @@ export default function DashboardPlaceholder() {
 
   const filteredPendingUsers = pendingUsers.filter(u =>
     (u.name || '').toLowerCase().includes(searchPendingQuery.toLowerCase().trim()) ||
-    (u.email || '').toLowerCase().includes(searchPendingQuery.toLowerCase().trim())
+    (u.email || '').toLowerCase().includes(searchPendingQuery.toLowerCase().trim()) ||
+    (u.phone || '').toLowerCase().includes(searchPendingQuery.toLowerCase().trim())
   );
 
   const filteredApprovedUsers = approvedUsers.filter(u =>
     (u.name || '').toLowerCase().includes(searchApprovedQuery.toLowerCase().trim()) ||
-    (u.email || '').toLowerCase().includes(searchApprovedQuery.toLowerCase().trim())
+    (u.email || '').toLowerCase().includes(searchApprovedQuery.toLowerCase().trim()) ||
+    (u.phone || '').toLowerCase().includes(searchApprovedQuery.toLowerCase().trim())
   );
 
   const handleApprove = async (userId, userName) => {
@@ -188,7 +190,7 @@ export default function DashboardPlaceholder() {
                         <span className="search-icon">🔍</span>
                         <input
                           type="text"
-                          placeholder="Search pending by name or email..."
+                          placeholder="Search pending by name, email, or phone..."
                           value={searchPendingQuery}
                           onChange={(e) => setSearchPendingQuery(e.target.value)}
                           className="user-search-input"
@@ -227,6 +229,7 @@ export default function DashboardPlaceholder() {
                           <tr>
                             <th>Candidate Name</th>
                             <th>Email Address</th>
+                            <th>Phone Number</th>
                             <th>Registered Date</th>
                             <th>Status</th>
                             <th>Allowed Tests</th>
@@ -238,6 +241,7 @@ export default function DashboardPlaceholder() {
                             <tr key={u.id}>
                               <td><strong>{u.name}</strong></td>
                               <td><code>{u.email}</code></td>
+                              <td>{u.phone ? <code>📱 {u.phone}</code> : <span className="text-subtle">—</span>}</td>
                               <td>{new Date(u.createdAt || u.created_at).toLocaleDateString()}</td>
                               <td><span className="status-pill status-pending">⏳ PENDING</span></td>
                               <td>
@@ -291,7 +295,7 @@ export default function DashboardPlaceholder() {
                         <span className="search-icon">🔍</span>
                         <input
                           type="text"
-                          placeholder="Search active users by name or email..."
+                          placeholder="Search active users by name, email, or phone..."
                           value={searchApprovedQuery}
                           onChange={(e) => setSearchApprovedQuery(e.target.value)}
                           className="user-search-input"
@@ -330,6 +334,7 @@ export default function DashboardPlaceholder() {
                           <tr>
                             <th>Candidate Name</th>
                             <th>Email Address</th>
+                            <th>Phone Number</th>
                             <th>Status</th>
                             <th>Test Attempts & Top-up</th>
                           </tr>
@@ -343,6 +348,7 @@ export default function DashboardPlaceholder() {
                               <tr key={u.id}>
                                 <td><strong>{u.name}</strong></td>
                                 <td><code>{u.email}</code></td>
+                                <td>{u.phone ? <code>📱 {u.phone}</code> : <span className="text-subtle">—</span>}</td>
                                 <td><span className="status-pill status-approved">✓ APPROVED</span></td>
                                 <td>
                                   <div className="attempts-cell-badge">

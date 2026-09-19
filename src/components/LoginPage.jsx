@@ -12,6 +12,7 @@ export default function LoginPage() {
   // Form State
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,9 +31,15 @@ export default function LoginPage() {
       return;
     }
 
-    if (isSignUp && selectedRole === 'user' && !name.trim()) {
-      setErrorMsg('Please enter your full name.');
-      return;
+    if (isSignUp && selectedRole === 'user') {
+      if (!name.trim()) {
+        setErrorMsg('Please enter your full name.');
+        return;
+      }
+      if (!phone.trim()) {
+        setErrorMsg('Please enter your phone number.');
+        return;
+      }
     }
 
     if (password.length < 6) {
@@ -43,14 +50,16 @@ export default function LoginPage() {
     try {
       setLoading(true);
       if (isSignUp && selectedRole === 'user') {
-        const res = await signup(name, email, password, 'user');
+        const res = await signup(name, email, password, 'user', phone);
         if (res.pendingApproval) {
           setSuccessMsg('🎉 Registration Request Sent! Your account has been forwarded to the Admin Portal for approval. Once an administrator approves your request, you will be able to sign in here.');
           setIsSignUp(false);
           setPassword('');
+          setPhone('');
         } else {
           setSuccessMsg('Account created successfully! You can now log in.');
           setIsSignUp(false);
+          setPhone('');
         }
       } else {
         await login(email, password, selectedRole);
@@ -134,21 +143,39 @@ export default function LoginPage() {
         {/* Auth Form */}
         <form onSubmit={handleSubmit} className="auth-form">
           {isSignUp && selectedRole === 'user' && (
-            <div className="input-field-group">
-              <label htmlFor="auth-name">Full Name</label>
-              <div className="input-wrapper">
-                <span className="input-icon">👤</span>
-                <input
-                  id="auth-name"
-                  type="text"
-                  placeholder="e.g. Alex Johnson"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={loading}
-                  required
-                />
+            <>
+              <div className="input-field-group">
+                <label htmlFor="auth-name">Full Name</label>
+                <div className="input-wrapper">
+                  <span className="input-icon">👤</span>
+                  <input
+                    id="auth-name"
+                    type="text"
+                    placeholder="e.g. Alex Johnson"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={loading}
+                    required
+                  />
+                </div>
               </div>
-            </div>
+
+              <div className="input-field-group">
+                <label htmlFor="auth-phone">Phone Number</label>
+                <div className="input-wrapper">
+                  <span className="input-icon">📱</span>
+                  <input
+                    id="auth-phone"
+                    type="tel"
+                    placeholder="e.g. 9876543210"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    disabled={loading}
+                    required
+                  />
+                </div>
+              </div>
+            </>
           )}
 
           <div className="input-field-group">
