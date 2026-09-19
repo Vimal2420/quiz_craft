@@ -56,14 +56,14 @@ const seedAdminAccount = async () => {
     const adminExists = await User.findOne({ role: 'admin' });
     if (!adminExists) {
       const defaultAdmin = new User({
-        name: 'Administrator',
-        email: 'admin@quizcraft.io',
-        password: 'admin123',
+        name: 'Anjusia',
+        email: 'anjusia@gmail.com',
+        password: 'anjusia1999@@',
         role: 'admin',
         status: 'approved'
       });
       await defaultAdmin.save();
-      console.log('✅ Default Administrator seeded: admin@quizcraft.io / admin123');
+      console.log('✅ Default Administrator seeded: anjusia@gmail.com');
     } else {
       console.log(`ℹ️ Admin account already present: ${adminExists.email}`);
     }
