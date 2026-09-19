@@ -265,17 +265,6 @@ export default function CandidateProfile({ onStartQuiz }) {
                 </div>
               </div>
             </div>
-
-            {attemptsHistory.length === 0 && (
-              <div className="empty-profile-box">
-                <span className="empty-icon">🎯</span>
-                <h4>No Test Attempts Yet</h4>
-                <p>Start your first assessment in the MCQ arena to build your performance profile and climb the leaderboard!</p>
-                <button className="btn btn-primary" style={{ marginTop: '1rem' }} onClick={onStartQuiz}>
-                  Begin Assessment Now
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}
