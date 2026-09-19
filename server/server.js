@@ -38,6 +38,18 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Serve frontend static build files in production
+const distPath = path.join(__dirname, '../dist');
+app.use(express.static(distPath));
+
+// SPA fallback: any non-API GET request loads index.html
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api')) {
+    return next();
+  }
+  res.sendFile(path.join(distPath, 'index.html'));
+});
+
 // Auto-seed Administrator Account if not present
 const seedAdminAccount = async () => {
   try {

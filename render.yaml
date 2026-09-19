@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: quizcraft
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build && cd server && npm install
+    startCommand: node server/server.js
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        value: quizcraft-secure-jwt-key-2026-production
