@@ -98,7 +98,4 @@ Runs on `http://localhost:5173`.
   - Email: `sophia@test.edu`
   - Password: `studentpassword123`
 
----
 
-## 📄 License
-This project is open source and available under the [MIT License](LICENSE).
