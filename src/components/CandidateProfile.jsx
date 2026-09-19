@@ -388,15 +388,6 @@ export default function CandidateProfile({ onStartQuiz }) {
               <span className="loading-spinner">⏳</span>
               <p>Loading your test history...</p>
             </div>
-          ) : attemptsHistory.length === 0 ? (
-            <div className="empty-profile-box">
-              <span className="empty-icon">📖</span>
-              <h4>No Completed Tests Found</h4>
-              <p>You haven't completed any assessments yet. Start a test from the MCQ Arena!</p>
-              <button className="btn btn-primary" style={{ marginTop: '1rem' }} onClick={onStartQuiz}>
-                Start Assessment
-              </button>
-            </div>
           ) : (
             <div className="table-wrapper">
               <table className="history-table">
@@ -410,7 +401,14 @@ export default function CandidateProfile({ onStartQuiz }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {attemptsHistory.map((att, idx) => {
+                  {attemptsHistory.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '2rem' }}>
+                        No completed tests found.
+                      </td>
+                    </tr>
+                  ) : (
+                    attemptsHistory.map((att, idx) => {
                     const dateStr = att.createdAt ? new Date(att.createdAt).toLocaleString() : 'Recent';
 
                     return (
@@ -440,7 +438,8 @@ export default function CandidateProfile({ onStartQuiz }) {
                         </td>
                       </tr>
                     );
-                  })}
+                  })
+                )}
                 </tbody>
               </table>
             </div>
