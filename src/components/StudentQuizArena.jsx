@@ -441,25 +441,6 @@ export default function StudentQuizArena() {
         <div className="test-config-header">
           <div>
             <h2>🎯 Choose Category</h2>
-            <p className="subtitle">
-              Select any ONE category to attend for this test:
-            </p>
-          </div>
-        </div>
-
-        {/* Attempts Remaining Status Banner */}
-        <div className={`attempts-remaining-banner ${remainingAttempts === 0 ? 'depleted' : ''}`}>
-          <div className="banner-icon">{remainingAttempts === 0 ? '⛔' : '🎫'}</div>
-          <div className="banner-content">
-            <strong>{remainingAttempts} of {allowedAttempts} Test Attempts Remaining</strong>
-            <span>
-              {remainingAttempts === 0
-                ? 'You have used all your assigned test attempts. Please contact your administrator to request additional attempts.'
-                : 'Each time you attend and submit a test, your remaining attempt count decreases by 1.'}
-            </span>
-          </div>
-          <div className="attempts-pill-tag">
-            {remainingAttempts > 0 ? `${remainingAttempts} Left` : '0 Left (Exhausted)'}
           </div>
         </div>
 
