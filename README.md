@@ -73,29 +73,5 @@ npm install
 cd ..
 ```
 
-### 4. Running Locally
-
-**Terminal 1 — Backend API:**
-```bash
-node server/server.js
-```
-Runs on `http://localhost:5000`.
-
-**Terminal 2 — Frontend App:**
-```bash
-npm run dev -- --port 5173
-```
-Runs on `http://localhost:5173`.
-
----
-
-## 👥 Default Administrator Account
-
-- **Admin Account**:
-  - Email: `anjusia@gmail.com`
-  - Password: `anjusia1999@@`
-- **Student Account**:
-  - Email: `sophia@test.edu`
-  - Password: `studentpassword123`
 
 
