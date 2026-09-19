@@ -179,9 +179,6 @@ export default function AdminQuestionManager() {
               {questions.length} Total MCQs
             </span>
           </div>
-          <p className="text-subtle">
-            All questions are manually authored and organized by syllabus chapters.
-          </p>
         </div>
 
         <button className="btn btn-primary" onClick={handleOpenAddModal}>

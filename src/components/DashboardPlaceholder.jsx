@@ -124,9 +124,6 @@ export default function DashboardPlaceholder() {
             <div className="admin-overview-header">
               <div>
                 <h1>Administrator Control Center</h1>
-                <p className="welcome-sub" style={{ margin: '0.25rem 0 0 0' }}>
-                  Author chapter MCQs, manage syllabus questions, and review user approvals.
-                </p>
               </div>
             </div>
 
