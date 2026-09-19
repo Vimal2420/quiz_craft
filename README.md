@@ -89,11 +89,11 @@ Runs on `http://localhost:5173`.
 
 ---
 
-## 👥 Default Accounts (Demo)
+## 👥 Default Administrator Account
 
 - **Admin Account**:
-  - Email: `admin@quizcraft.io`
-  - Password: `admin123`
+  - Email: `anjusia@gmail.com`
+  - Password: `anjusia1999@@`
 - **Student Account**:
   - Email: `sophia@test.edu`
   - Password: `studentpassword123`
