@@ -22,8 +22,8 @@ export default function StudentQuizArena() {
   // Category 1: Chapter Wise state
   const [selectedChapter, setSelectedChapter] = useState('');
 
-  // Category 2: Question Volume state ('full' | 'half' | number)
-  const [volumeType, setVolumeType] = useState('full');
+  // Category 2: Question Volume state (100 | 50 | 10)
+  const [volumeType, setVolumeType] = useState(100);
 
   // Category 3: Time and Exam Duration state (Max 120 mins / 2 hours, no unlimited time)
   const [timeDurationMins, setTimeDurationMins] = useState(30);
@@ -111,14 +111,21 @@ export default function StudentQuizArena() {
     } else if (selectedCategory === 'question_volume') {
       label = '2. Question Volume';
       pool = [...allQuestions];
-      if (volumeType === 'half') {
-        count = Math.max(1, Math.ceil(pool.length / 2));
-      } else if (typeof volumeType === 'number') {
+      if (typeof volumeType === 'number') {
         count = Math.min(pool.length, volumeType);
+      } else if (volumeType === '50' || volumeType === 'half') {
+        count = Math.min(pool.length, 50);
+      } else if (volumeType === '10') {
+        count = Math.min(pool.length, 10);
       } else {
-        count = pool.length;
+        count = Math.min(pool.length, 100);
       }
-      detail = `${count} Questions (${volumeType === 'half' ? '50% sample' : volumeType === 'full' ? '100% full' : `${count} Qs`})`;
+      const labelBadge = (volumeType === 50 || volumeType === '50' || volumeType === 'half')
+        ? '50 Qs'
+        : (volumeType === 10 || volumeType === '10')
+          ? '10 Qs'
+          : '100 Qs';
+      detail = `${count} Questions (${labelBadge} Set)`;
       duration = 0; // No countdown
     } else if (selectedCategory === 'time_duration') {
       label = '3. Time and Exam Duration';
@@ -560,48 +567,60 @@ export default function StudentQuizArena() {
                     
                     <div className="volume-selection-row">
                       <div
-                        className={`volume-card ${volumeType === 'full' ? 'active' : ''}`}
-                        onClick={() => setVolumeType('full')}
+                        className={`volume-card ${volumeType === 100 || volumeType === '100' || volumeType === 'full' ? 'active' : ''}`}
+                        onClick={() => setVolumeType(100)}
                       >
                         <div className="volume-radio-indicator">
-                          {volumeType === 'full' ? '◉' : '○'}
+                          {volumeType === 100 || volumeType === '100' || volumeType === 'full' ? '◉' : '○'}
                         </div>
                         <div className="volume-content">
-                          <strong>Full Questions (100%)</strong>
-                          <span>Attend all {allQuestions.length} available questions</span>
+                          <strong>100 Questions</strong>
+                          <span>
+                            {allQuestions.length >= 100
+                              ? 'Attend 100 questions from the question bank'
+                              : `Attend all ${allQuestions.length} available questions`}
+                          </span>
                         </div>
-                        <span className="volume-stat-pill">{allQuestions.length} Qs</span>
+                        <span className="volume-stat-pill">
+                          {Math.min(allQuestions.length, 100)} Qs
+                        </span>
                       </div>
 
                       <div
-                        className={`volume-card ${volumeType === 'half' ? 'active' : ''}`}
-                        onClick={() => setVolumeType('half')}
+                        className={`volume-card ${volumeType === 50 || volumeType === '50' || volumeType === 'half' ? 'active' : ''}`}
+                        onClick={() => setVolumeType(50)}
                       >
                         <div className="volume-radio-indicator">
-                          {volumeType === 'half' ? '◉' : '○'}
+                          {volumeType === 50 || volumeType === '50' || volumeType === 'half' ? '◉' : '○'}
                         </div>
                         <div className="volume-content">
-                          <strong>Half Questions (50%)</strong>
-                          <span>Attend a 50% sample ({Math.max(1, Math.ceil(allQuestions.length / 2))} questions)</span>
+                          <strong>50 Questions</strong>
+                          <span>
+                            {allQuestions.length >= 50
+                              ? 'Attend 50 questions from the question bank'
+                              : `Attend all ${allQuestions.length} available questions`}
+                          </span>
                         </div>
                         <span className="volume-stat-pill">
-                          {Math.max(1, Math.ceil(allQuestions.length / 2))} Qs
+                          {Math.min(allQuestions.length, 50)} Qs
                         </span>
                       </div>
 
                       {allQuestions.length >= 10 && (
                         <div
-                          className={`volume-card ${volumeType === 10 ? 'active' : ''}`}
+                          className={`volume-card ${volumeType === 10 || volumeType === '10' ? 'active' : ''}`}
                           onClick={() => setVolumeType(10)}
                         >
                           <div className="volume-radio-indicator">
-                            {volumeType === 10 ? '◉' : '○'}
+                            {volumeType === 10 || volumeType === '10' ? '◉' : '○'}
                           </div>
                           <div className="volume-content">
                             <strong>Quick 10 Questions</strong>
                             <span>Attend 10 random questions</span>
                           </div>
-                          <span className="volume-stat-pill">10 Qs</span>
+                          <span className="volume-stat-pill">
+                            {Math.min(allQuestions.length, 10)} Qs
+                          </span>
                         </div>
                       )}
                     </div>

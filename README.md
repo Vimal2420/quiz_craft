@@ -10,7 +10,7 @@ A full-stack, responsive Multiple Choice Questions (MCQ) assessment platform des
 - **Role-Based Authentication**: Secure registration with admin approval workflow.
 - **Three Assessment Modes**:
   1. **Chapter Wise**: Practice questions chapter-by-chapter (Self-paced, elapsed stopwatch).
-  2. **Question Volume**: Choose question sets (Full 100%, 50%, or Quick 10 Qs).
+  2. **Question Volume**: Choose question sets (100 Qs, 50 Qs, or Quick 10 Qs).
   3. **Time & Exam Duration**: Strictly timed exams with countdown timer (up to 120 mins max).
 - **Test Attempt Allocation & Decrement on Start**:
   - Assigned attempts decrease immediately upon starting a test.

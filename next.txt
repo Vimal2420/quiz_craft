@@ -18,7 +18,7 @@ Project Location: c:\Users\Lenovo\OneDrive\Desktop\projects\quiz app
   - Candidates can attend strictly ONE category at a time:
     1. Chapter Wise: Attend questions from a specific syllabus chapter.
        -> Self-paced practice with NO countdown timer (elapsed stopwatch only).
-    2. Question Volume: Attend test with fixed questions (Full 100%, Half 50%, or Quick 10 Qs).
+    2. Question Volume: Attend test with fixed questions (100 Qs, 50 Qs, or Quick 10 Qs).
        -> Self-paced practice with NO countdown timer (elapsed stopwatch only).
     3. Time and Exam Duration: Strictly timed assessment.
        -> Has countdown timer (15m, 30m, 45m, 1hr, 1.5hr, 2hr Max).
